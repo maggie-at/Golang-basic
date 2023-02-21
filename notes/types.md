@@ -1,0 +1,21 @@
+### Types
+
+- 布尔型: true / false, 不能用0和非0判断
+- 数字类型
+  - 整型
+    - 有符号: int, int8, int16, int32, int64
+    - 无符号: uint, uint8, uint16, uint32, uint64
+  - 浮点型: float32, float64
+  - byte
+  - rune
+  - uintptr
+- 字符串类型: 由单个字节连接起来的, 字节是使用UTF-8编码的Unicode文本
+- 派生类型
+  - 指针类型
+  - 数组类型
+  - 切片类型
+  - Map类型
+  - 结构体类型
+  - Channel类型
+  - 函数类型
+  - 接口类型
