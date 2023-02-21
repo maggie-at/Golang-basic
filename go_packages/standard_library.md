@@ -98,3 +98,5 @@ func JSON_() {
 
 #### `math`
 > https://pkg.go.dev/math
+> 
+> https://pkg.go.dev/math/rand

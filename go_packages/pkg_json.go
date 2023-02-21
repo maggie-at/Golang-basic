@@ -43,5 +43,4 @@ func JSON_() {
 	defer wf.Close()
 	encoder := json.NewEncoder(wf)
 	encoder.Encode(newJson)
-
 }
