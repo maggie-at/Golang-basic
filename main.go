@@ -17,5 +17,5 @@ func main() {
 	// SpiderMain()
 
 	// Go标准库
-	go_packages.JSON_()
+	go_packages.Rand_()
 }
