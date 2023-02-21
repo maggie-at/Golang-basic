@@ -1,8 +1,6 @@
 package main
 
-import (
-	"Golang/go_packages/pkg_os"
-)
+import "Golang/go_packages"
 
 func main() {
 	// GO基础
@@ -18,8 +16,6 @@ func main() {
 	// GO爬虫
 	// SpiderMain()
 
-	// packages
-	// 1. os
-	pkg_os.WriteFile()
-
+	// Go标准库
+	go_packages.JSON_()
 }

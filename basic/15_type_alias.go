@@ -2,7 +2,7 @@ package basic
 
 import "fmt"
 
-func Type_Alias() {
+func TypeAlias_() {
 	// 新类型, 结构体也是这样定义的
 	type MyInt int
 	var i MyInt
