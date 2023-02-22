@@ -14,7 +14,7 @@ import (
 /* https://www.bilibili.com/video/BV1CR4y1g7wB?p=2&vd_source=e60de8162f155cdd464b9f11c355e633 */
 
 const (
-	USERNAME = "root"
+	USERNAME = "alan"
 	PASSWORD = "alantam."
 	HOST     = "127.0.0.1"
 	PORT     = "3306"
@@ -30,7 +30,9 @@ func InitDB() {
 	DB, _ = sql.Open("mysql", path)
 	DB.SetConnMaxLifetime(10)
 	DB.SetMaxIdleConns(5)
-	if err := DB.Ping(); err != nil {
+
+	err := DB.Ping()
+	if err != nil {
 		fmt.Println("Open Database Failed")
 		return
 	}
