@@ -1,11 +1,14 @@
 package main
 
-import "Golang/go_packages"
+import (
+	"Golang/basic"
+	// "Golang/go_packages"
+)
 
 func main() {
 	// GO基础
 	// fmt.Println("————main()————")
-	// basic.JSON_()
+	basic.CapTrack_()
 
 	// GIN demo
 	// GinMain()
@@ -17,5 +20,5 @@ func main() {
 	// SpiderMain()
 
 	// Go标准库
-	go_packages.Rand_()
+	// go_packages.Rand_()
 }
