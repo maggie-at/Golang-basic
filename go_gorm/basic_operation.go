@@ -2,7 +2,9 @@ package go_gorm
 
 import (
 	"fmt"
+	"gorm.io/gorm/logger"
 	"strings"
+	"time"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -17,6 +19,8 @@ const (
 )
 
 type Product struct {
+	// Model a basic GoLang struct which includes the following fields: ID, CreatedAt, UpdatedAt, DeletedAt
+	// It may be embedded into your model or you may build your own model without it
 	gorm.Model
 	Code  string // 字段首字母大写
 	Price uint
@@ -24,7 +28,9 @@ type Product struct {
 
 func InitDB_() *gorm.DB {
 	dsn := strings.Join([]string{USERNAME, ":", PASSWORD, "@tcp(", HOST, ":", PORT, ")/", DBNAME, "?charset=utf8&parseTime=true"}, "")
-	db, _ := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, _ := gorm.Open(mysql.Open(dsn), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
 	return db
 }
 
@@ -45,28 +51,6 @@ func CreateTable_(db *gorm.DB) {
 	*/
 }
 
-func InsertData_(db *gorm.DB) {
-	// 插入数据
-	p := Product{Code: "A25", Price: 25}
-	db.Create(&p)
-	// 或者直接写成
-	db.Create(&Product{Code: "D42", Price: 100})
-
-	// 插入部分字段
-	p_part := Product{Code: "B20"}
-	db.Select("Code").Create(&p_part)
-
-	// 批量插入, 用「结构体切片」或者「map切片」都可以
-	var pList = []Product{{Code: "K30"}, {Code: "M12"}}
-	db.Create(&pList)
-
-	// 尽量别用
-	db.Model(&Product{}).Create(map[string]interface{}{
-		"Code":  "K50",
-		"Price": 1999,
-	})
-}
-
 func QueryData_(db *gorm.DB) {
 	// 主键查询
 	var p1 Product
@@ -82,7 +66,7 @@ func QueryData_(db *gorm.DB) {
 	db.Last(&p3, "price=?", 0)
 	fmt.Printf("p: %v\n", p3)
 
-	// 主键批量查询: 切片
+	// 主键批量查询 (要传入切片)
 	var pList []Product
 	ret := db.Find(&pList, []int{1, 2, 5})
 	for idx, p := range pList {
@@ -114,19 +98,73 @@ func QueryData_(db *gorm.DB) {
 	// .Distinct()
 }
 
+func InsertData_(db *gorm.DB) {
+	// 1. 插入一条完整数据
+	p := Product{Code: "A25", Price: 25}
+	db.Create(&p)
+	// 或者直接写成
+	db.Create(&Product{Code: "D42", Price: 100})
+
+	// 2. 插入部分字段
+	pPart := Product{Code: "B20"}
+	db.Select("Code").Create(&pPart)
+
+	// 3. 批量插入 (要传入切片), 用「结构体切片」或者「map切片」都可以
+	var pList = []Product{{Code: "K30", Price: 1999}, {Code: "M12", Price: 3999}}
+	db.Create(&pList)
+
+	// 尽量别用
+	db.Model(&Product{}).Create(map[string]interface{}{
+		"Code":  "K50",
+		"Price": 1999,
+	})
+}
+
 func UpdateData_(db *gorm.DB) {
 	// 先把要更新的record查询出来
 	var product Product
 	db.First(&product, 1)
-	// 更新单个字段
-	db.Model(&product).Update("price", 80)
-	// 使用 结构体 或者 map 更新多个字段
+	// 1. 更新单个字段
+	db.Model(&product).Update("Price", 80)
+	// 2. 使用 结构体 或者 map 更新多个字段
 	db.Model(&product).Updates(Product{Code: "A80", Price: 25})
 	db.Model(&product).Updates(map[string]interface{}{"Code": "A25", "Price": 25})
+
+	var product1 Product
+	db.First(&product1, 3)
+	product1.Code = "A13"
+	product1.Price = 25
+	db.Save(&product1)
+
+	// 3. 批量更新
+	ret := db.Model(&Product{}).Where("Price=?", 100).Update("Price", 80)
+	fmt.Println(ret.RowsAffected, "rows updated.")
+
+	// 阻止全局更新 (WHERE conditions required), 至少要加一个.Where("1=1")
+	db.Model(&Product{}).Update("Code", "xxx") // WHERE conditions required
+	db.Model(&Product{}).Where("1 = 1").Update("updated_at", time.Now())
+
+	// 执行原生SQL语句
+	db.Exec("Update Products set deleted_at = ?", nil)
 }
 
-func DeleteData_(db *gorm.DB) {
+func DeleteData_(db *gorm.DB) { // 软删除(将delete标识位设为非空)
 	var product Product
-	// 删除record
+	// 1. 根据主键删除
 	db.Delete(&product, 2)
+
+	// 2. 先查询后删除
+	db.First(&product, 4)
+	db.Delete(&product) // 删除已经删除的record => record not found
+
+	// 3. 批量删除 (要传入切片)
+	var pList []Product
+	ret := db.Delete(pList, []int{5, 6})
+	fmt.Println(ret.RowsAffected, "rows deleted.")
+
+	ret1 := db.Where("Code like ?", "%2").Delete(pList)
+	fmt.Println(ret1.RowsAffected, "rows deleted")
+
+	ret2 := db.Delete(pList, "Code like ?", "%3")
+	fmt.Println(ret2.RowsAffected, "rows deleted")
 }

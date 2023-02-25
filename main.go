@@ -25,8 +25,10 @@ func main() {
 	// go_gorm
 	db := go_gorm.InitDB_()
 	//go_gorm.CreateTable_(db)
+	//go_gorm.QueryData_(db)
 	//go_gorm.InsertData_(db)
-	go_gorm.QueryData_(db)
+	//go_gorm.UpdateData_(db)
 	//go_gorm.DeleteData_(db)
 
+	go_gorm.RawSql(db)
 }
