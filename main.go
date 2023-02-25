@@ -30,5 +30,8 @@ func main() {
 	//go_gorm.UpdateData_(db)
 	//go_gorm.DeleteData_(db)
 
-	go_gorm.RawSql(db)
+	//go_gorm.RawSql(db)
+
+	//go_gorm.ManyToOne(db)
+	go_gorm.ManyToMany(db)
 }
