@@ -17,7 +17,12 @@ func RawSql(db *gorm.DB) {
 	rows, _ := db.Raw("select code, price from Products where price > ?", 25).Rows()
 	for rows.Next() {
 		var pr PResult
-		rows.Scan(&pr.Code, &pr.Price)
+		// rows.Scan(&dest1, ...): 逐个字段载入
+		// rows.Scan(&pr.Code, &pr.Price)
+		// fmt.Println(pr)
+
+		// db.ScanRows(rows, &dest): 直接载入结构体
+		db.ScanRows(rows, &pr)
 		fmt.Println(pr)
 	}
 
