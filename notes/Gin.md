@@ -34,6 +34,3 @@ ginServer.GET("/hello", func(context *gin.Context) {
     context.JSON(200, gin.H{"msg": "Hello, Gin."})
 })
 ```
-
-```GO
-```

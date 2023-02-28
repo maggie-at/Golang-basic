@@ -2,10 +2,11 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/gin-gonic/gin"
-	"github.com/thinkerou/favicon"
 	"log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/thinkerou/favicon"
 )
 
 func MyMidHandler() gin.HandlerFunc {
@@ -45,7 +46,7 @@ func GinMain() {
 	})
 
 	// 接收前端传递的参数
-	// 方式一: /user/info?userid=1&username=alan   +	context.Query
+	// 方式一: /user/info?userid=1&username=alan   +	context.Query("key")
 	ginServer.GET("/user/info", func(context *gin.Context) {
 		user_id := context.Query("userid")
 		user_name := context.Query("username")
@@ -55,7 +56,7 @@ func GinMain() {
 			"username": user_name,
 		})
 	})
-	// 方式二: /user/info/1/alan		+	context.Param
+	// 方式二: /user/info/1/alan		+	context.Param("key")
 	ginServer.GET("/user/info/:userid/:username", func(context *gin.Context) {
 		userId := context.Param("userid")
 		userName := context.Param("username")

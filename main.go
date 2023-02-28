@@ -1,7 +1,5 @@
 package main
 
-import "Golang/go_gorm"
-
 func main() {
 	// GO基础
 	// fmt.Println("————main()————")
@@ -23,7 +21,7 @@ func main() {
 	// go_SQL.QueryMultiData_()
 
 	// go_gorm
-	db := go_gorm.InitDB_()
+	// db := go_gorm.InitDB_()
 	//go_gorm.CreateTable_(db)
 	//go_gorm.QueryData_(db)
 	//go_gorm.InsertData_(db)
@@ -33,5 +31,5 @@ func main() {
 	//go_gorm.RawSql(db)
 
 	//go_gorm.ManyToOne(db)
-	go_gorm.ManyToMany(db)
+	// go_gorm.ManyToMany(db)
 }
