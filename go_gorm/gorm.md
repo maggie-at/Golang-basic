@@ -31,7 +31,7 @@ func InitDB_() *gorm.DB {
 ```GO
 type Product struct {
     // Model a basic GoLang struct which includes the following fields: ID, CreatedAt, UpdatedAt, DeletedAt
-    // It may be embedded into your model or you may build your own model without it
+    // It may be embedded into your model or you may build your own model without it 
 	gorm.Model
     Code  string    // 字段首字母大写
     Price uint
@@ -67,7 +67,7 @@ func QueryData_(db *gorm.DB) {
     var pList []Product
     ret := db.Find(&pList, []int{1, 2, 5})  // db.Find(): 返回所有匹配记录
     for idx, p := range pList {
-    fmt.Println(idx, ": ", p)
+        fmt.Println(idx, ": ", p)
     }
     fmt.Println(ret.RowsAffected, "rows found.")
 	
@@ -198,7 +198,7 @@ func DeleteData_(db *gorm.DB) { // 软删除(将delete标识位设为非空)
 
 
 ##### SQL注入 => 参数化查询
-> 用`?占位符`替代字符串拼接的方式, 它的原理是采用了「预编译」的方法, 先将SQL语句中可被客户端控制的参数集进行编译, 生成对应的临时变量集, 再使用对应的设置方法, 为临时变量集里面的元素进行赋值
+> 用`?占位符`替代字符串拼接的方式防止SQL注入, 原理是采用了「预编译」的方法, 先将SQL语句中可被客户端控制的参数集进行编译, 生成对应的临时变量集, 再使用对应的设置方法, 为临时变量集里面的元素进行赋值
 ```GO
 // 字符串拼接导致的「SQL注入」 => 解决方法: 参数化查询
 var pList2 []PResult
