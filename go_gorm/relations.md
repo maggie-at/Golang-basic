@@ -62,7 +62,7 @@ func ManyToOneRewrite(db *gorm.DB) {
         gorm.Model
         Name      string
         CompanyID string
-        Company   Company `gorm:"references:Code"` // 注意这里不是foreignKey
+        Company   Company `gorm:"references:Code"`
     }
     db.AutoMigrate(&Company{}, &Employee{})
 }

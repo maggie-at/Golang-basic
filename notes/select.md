@@ -20,8 +20,8 @@ var chanStr = make(chan string)
 
 func Select_() {
 	go func() {
-		chanInt <- 25
-		chanStr <- "Alan"
+		chanInt <- 11
+		chanStr <- "Maggie"
 		defer close(chanInt)
 		defer close(chanStr)
 	}()
