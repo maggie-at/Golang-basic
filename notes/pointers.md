@@ -8,5 +8,3 @@
 var int_p *int
 fmt.Printf("%T: %v", int_p, int_p)
 ```
-
-```GO

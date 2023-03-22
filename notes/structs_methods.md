@@ -4,7 +4,7 @@
 
 ```GO
 type person struct {
-    id   int
+	id   int
 	name string
 	age  int
 }
@@ -13,8 +13,7 @@ type person struct {
 ### methods
 
 > 方法: 可以为「值类型」或者「指针类型」的「接收者(receiver)」定义方法
-
-
+> 
 > 「为结构体类型定义方法(methods)」, 使用`receiver.方法()`来调用
 > 
 > 值类型的结构体作为接收参数, 调用方法时会对结构体进行拷贝, 无法修改结构体的值
